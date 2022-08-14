@@ -4,7 +4,11 @@ const math = require('canvas-sketch-util/math');
 const random = require('canvas-sketch-util/random');
 
 const settings = {
-  dimensions: [ 1080, 1080 ]
+  dimensions: [ 1080, 1080 ],
+  playing: false,
+  animate: true, 
+  fps: 24,
+  duration: 30
 };
 
 const sketch = () => {
@@ -15,19 +19,18 @@ const sketch = () => {
     context.fillStyle = 'white';
     context.strokeStyle = 'white';
 
-    const cx = 0 // width * 0.5;
-    const cy = 0 // height * 0.5;
+    const cx = width * 0.5;
+    const cy = height * 0.5;
 
     const w = width * 0.01;
     const h = height * 0.1;
     let x,y;
     
     const num = 120;
-    const radius = width * 0.7;
+    const radius = width * 0.3;
+    const slice = math.degToRad(360/num);
 
     for (let i = 0; i < num; i++) {
-      
-      const slice = math.degToRad(360/num);
       const angle = slice * i;
 
       x = cx + radius * Math.sin(angle);
@@ -42,6 +45,10 @@ const sketch = () => {
       context.rect(-w*0.5,random.range(0,-h*0.5),w,h);
       context.fill();
       context.restore();
+    };
+
+    for (let i = 0; i < num; i++) {
+      const angle = slice * i;
 
       context.lineWidth = random.range(5,20);
 
@@ -53,11 +60,10 @@ const sketch = () => {
       context.arc(0,0,radius * random.range(0.7,1.3),slice * random.range(1,-8),slice * random.range(1,5));
       context.stroke();
       context.restore();
-      
-    }
-
+    };
 
   };
+  
 };
 
 canvasSketch(sketch, settings);
