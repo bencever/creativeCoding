@@ -16,7 +16,7 @@ const settings = {
 const sketch = ({ context, width, height }) => {
   const agents = []
 
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < 80; i++) {
     const x = random.range(0,width);
     const y = random.range(0,height);
 
@@ -27,10 +27,31 @@ const sketch = ({ context, width, height }) => {
     context.fillStyle = 'white';
     context.fillRect(0, 0, width, height);
 
+    for (let i = 0; i < agents.length; i++) {
+      const agent = agents[i];
+
+      for (let j = i+1; j < agents.length; j++) {
+        const other = agents[j];
+
+        const dist = agent.pos.getDistance(other.pos);
+
+        if (dist > 200) continue;
+
+        context.lineWidth = math.mapRange(dist, 0, 200, 12, 1);
+
+        context.beginPath();
+        context.moveTo(agent.pos.x, agent.pos.y);
+        context.lineTo(other.pos.x, other.pos.y);
+        context.stroke();
+      }
+    }
+
     agents.forEach(agent => {
       agent.update();
       agent.draw(context);
-      agent.bounce(width, height);
+      const chance = random.range(0,10);
+      if (chance >= 5) agent.bounce(width,height);
+      if (chance < 5) agent.wrap(width, height);
     });
     
   };
@@ -42,6 +63,12 @@ class Vector {
   constructor(x, y) {
     this.x = x;
     this.y = y;
+  }
+
+  getDistance (v) {
+    const dx = this.x - v.x;
+    const dy = this.y - v.y;
+    return Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2));
   }
 }
 
@@ -65,6 +92,14 @@ class Agent {
     if (this.pos.y <= 0 || this.pos.y >= height) {
       this.vel.y *= -1;
     }
+  }
+
+  wrap(width, height) {
+    if (this.pos.x >= width) this.pos.x = 0;
+    if (this.pos.x <= 0) this.pos.x = width;
+    
+    if (this.pos.y >= height) this.pos.y = 0;
+    if (this.pos.y <= 0) this.pos.y = height;
   }
 
   draw(context) {
