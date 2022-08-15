@@ -1,4 +1,4 @@
-Excercises for the course https://www.domestika.org/en/courses/2729-creative-coding-making-visuals-with-javascript
+Excercises for the course [Creative Coding: Making Visuals with JavaScript](https://www.domestika.org/en/courses/2729-creative-coding-making-visuals-with-javascript)
 
 ## Structure
 
@@ -23,11 +23,14 @@ Install the required packages:
 $ sudo apt update && sudo apt install -y nodejs npm
 $ # if you want to save video output:
 $ # sudo apt install -y ffmpeg
-$ npm install canvas-sketch
-$ npm install canvas-sketch-util
 ```
 
-Clone this repository on your local, and navigate in the root directory of the cloned repository.
+Clone this repository on your local, and navigate to the sketches subfolder. Once there, issue the following to install all the nodejs dependencies:
+
+```shell
+$ npm install
+```
+
 
 To run e.g. sketch-02 with live reload in your browser, execute the following command and open the link in the output:
 ```shell
